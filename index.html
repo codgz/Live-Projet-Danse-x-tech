@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catalog of Movement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Syne:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #ffffff;
+    --fg: #000000;
+    --fg2: #3a3a3a;
+    --fg3: #888888;
+    --border: rgba(0,0,0,0.14);
+    --white: #ffffff;
+    --cell-bg: #d4d4d4;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Syne', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* ── PAGE MANAGEMENT ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ══════════════════════════════
+     HOME
+  ══════════════════════════════ */
+  #home {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 3rem 3rem 2.5rem;
+  }
+
+  .home-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 800px;
+  }
+
+  .home-eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--fg3);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .home-title {
+    font-family: var(--serif);
+    font-size: clamp(52px, 9vw, 110px);
+    line-height: 0.95;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.15em;
+  }
+
+  .home-title em {
+    font-style: italic;
+    color: var(--fg2);
+  }
+
+  .home-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+  }
+
+  .home-meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .home-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .home-meta-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--fg3);
+  }
+
+  .home-meta-value {
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--fg);
+  }
+
+  .enter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--fg);
+    color: var(--bg);
+    border: none;
+    padding: 13px 28px;
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    border-radius: 0;
+  }
+  .enter-btn:hover { opacity: 0.7; }
+  .enter-btn .arrow { transition: transform 0.2s; }
+  .enter-btn:hover .arrow { transform: translateX(4px); }
+
+  .home-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .home-footer-note {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--fg3);
+    line-height: 1.7;
+  }
+
+  .home-count-large {
+    font-family: var(--serif);
+    font-size: clamp(40px, 6vw, 72px);
+    color: var(--fg3);
+    line-height: 1;
+  }
+
+  /* ══════════════════════════════
+     CATALOG
+  ══════════════════════════════ */
+  #catalog {
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 0 2rem 2rem;
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0 1.25rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+    gap: 1rem;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+  }
+
+  .topbar-title {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--fg);
+    letter-spacing: -0.01em;
+  }
+
+  .back-btn {
+    background: none;
+    border: none;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--fg3);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 400;
+    transition: color 0.15s;
+  }
+  .back-btn:hover { color: var(--fg); }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .page-info {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--fg3);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+
+  .nav-btn {
+    background: none;
+    border: 1px solid var(--border);
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 400;
+    color: var(--fg2);
+    padding: 6px 16px;
+    cursor: pointer;
+    border-radius: 0;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+  .nav-btn:disabled { opacity: 0.25; cursor: default; }
+
+  /* Grid */
+  #grid-container {
+    display: grid;
+    gap: 5px;
+    align-content: start;
+  }
+
+  /* Layouts */
+  .layout-a { grid-template-columns: 2fr 1fr 1fr; }
+  .layout-b { grid-template-columns: repeat(4, 1fr); }
+  .layout-c { grid-template-columns: 1fr 1fr 1fr; }
+  .layout-d { grid-template-columns: repeat(3, 1fr); }
+
+  .cell {
+    background: var(--cell-bg);
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .cell:hover { opacity: 0.82; }
+
+  .cell-inner {
+    width: 100%;
+    padding-bottom: 100%; /* square */
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cell.wide .cell-inner { padding-bottom: 50%; }
+  .cell.tall { grid-row: span 2; }
+  .cell.tall .cell-inner { padding-bottom: 200%; }
+  .cell.span2 { grid-column: span 2; }
+  .cell.span3 { grid-column: span 3; }
+
+  .placeholder-x {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .placeholder-x svg {
+    width: 24px;
+    height: 24px;
+    opacity: 0.2;
+  }
+
+  /* Replace this with your actual <img> or <video> */
+  .cell img, .cell video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vid-tag {
+    position: absolute;
+    bottom: 7px;
+    right: 7px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 400;
+    padding: 3px 7px;
+    border-radius: 0;
+    pointer-events: none;
+  }
+
+  .text-cell {
+    background: #f0f0f0;
+    border: none;
+    border-radius: 0;
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    aspect-ratio: 1 / 1;
+  }
+  .text-cell.tall { grid-row: span 2; aspect-ratio: auto; }
+
+  .text-series {
+    font-family: var(--sans);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--fg3);
+    margin-bottom: 10px;
+  }
+
+  .text-body {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--fg2);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  /* Bottom dots */
+  .bottom-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    margin-top: 1.5rem;
+  }
+
+  .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+  }
+  .dot:hover { background: var(--fg3); }
+  .dot.active {
+    background: var(--fg);
+    transform: scale(1.3);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 600px) {
+    #home { padding: 2rem 1.5rem 2rem; }
+    #catalog { padding: 0 1rem 1.5rem; }
+    .layout-a, .layout-b, .layout-c, .layout-d { grid-template-columns: repeat(2, 1fr); }
+    .cell.span3 { grid-column: span 2; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="home" class="page active">
+  <div class="home-body">
+    <p class="home-eyebrow">Live Project &nbsp;·&nbsp; Danse × Tech</p>
+    <h1 class="home-title">Catalog of<br><em>Movement</em></h1>
+    <div class="home-divider"></div>
+    <div class="home-meta-row">
+      <div class="home-meta-item">
+        <span class="home-meta-label">Projet</span>
+        <span class="home-meta-value">Live Project, Danse × Tech</span>
+      </div>
+      <div class="home-meta-item">
+        <span class="home-meta-label">Date</span>
+        <span class="home-meta-value">April 2026</span>
+      </div>
+      <div class="home-meta-item">
+        <span class="home-meta-label">Médias</span>
+        <span class="home-meta-value">Images &amp; Vidéos</span>
+      </div>
+    </div>
+    <button class="enter-btn" onclick="openCatalog()">
+      Enter catalog <span class="arrow">→</span>
+    </button>
+  </div>
+  <div class="home-footer">
+    <p class="home-footer-note">
+      50 works across 4 pages<br>
+      Images &amp; video — square format
+    </p>
+    <p class="home-count-large">50</p>
+  </div>
+</div>
+
+<!-- ══════════ CATALOG ══════════ -->
+<div id="catalog" class="page">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-title">Catalog of Movement</span>
+      <button class="back-btn" onclick="goHome()">← Home</button>
+    </div>
+    <div class="topbar-right">
+      <span class="page-info" id="page-label">01 / 04</span>
+      <button class="nav-btn" id="prev-btn" onclick="changePage(-1)" disabled>Prev</button>
+      <button class="nav-btn" id="next-btn" onclick="changePage(1)">Next</button>
+    </div>
+  </div>
+
+  <div id="grid-container"></div>
+
+  <div class="bottom-bar" id="dots-row"></div>
+</div>
+
+<script>
+/*
+  ─────────────────────────────────────────────────────────
+  HOW TO REPLACE PLACEHOLDERS WITH YOUR REAL MEDIA
+  ─────────────────────────────────────────────────────────
+  Each cell with type:'img' or type:'video' has a unique idx.
+  To replace idx 3 with an image, find the cell with idx:3
+  and change it like this:
+
+    { type:'img', idx:3 }
+    → add a "src" key:
+    { type:'img', idx:3, src:'images/my-photo.jpg' }
+
+  For a video:
+    { type:'video', idx:8, src:'videos/clip.mp4' }
+
+  The grid will render a <img> or <video autoplay muted loop>
+  instead of the X placeholder automatically.
+  ─────────────────────────────────────────────────────────
+*/
+
+const PAGES = [
+  {
+    layout: 'layout-a',
+    // 3 columns: 2fr 1fr 1fr
+    cells: [
+      { type:'img',  idx:1,  span:'tall' },   // tall left image
+      { type:'img',  idx:2  },
+      { type:'text',
+        label:'Series I — Initiation',
+        body:'The body before movement: weight, stillness, the threshold between potential and action.' },
+      { type:'img',  idx:3  },
+      { type:'img',  idx:4  },
+      { type:'video',idx:5  },
+      { type:'img',  idx:6  },
+      { type:'img',  idx:7  },
+    ]
+  },
+  {
+    layout: 'layout-b',
+    // 4 columns equal
+    cells: [
+      { type:'img',  idx:8  },
+      { type:'img',  idx:9  },
+      { type:'video',idx:10 },
+      { type:'img',  idx:11 },
+      { type:'text',
+        label:'Series II — Pulse',
+        body:'Rhythm as architecture. Each repetition a variation; each variation a question.' },
+      { type:'img',  idx:12 },
+      { type:'img',  idx:13 },
+      { type:'img',  idx:14 },
+      { type:'video',idx:15 },
+      { type:'img',  idx:16 },
+      { type:'img',  idx:17 },
+      { type:'img',  idx:18 },
+    ]
+  },
+  {
+    layout: 'layout-c',
+    // 3 columns equal
+    cells: [
+      { type:'video',idx:19, span:'span2' },   // wide video
+      { type:'img',  idx:20 },
+      { type:'img',  idx:21 },
+      { type:'img',  idx:22 },
+      { type:'img',  idx:23 },
+      { type:'text',
+        label:'Series III — Contact',
+        body:'Two bodies, one axis. The negotiation of space as a form of language.' },
+      { type:'img',  idx:24 },
+      { type:'img',  idx:25 },
+      { type:'video',idx:26 },
+      { type:'img',  idx:27 },
+      { type:'img',  idx:28 },
+      { type:'img',  idx:29 },
+    ]
+  },
+  {
+    layout: 'layout-d',
+    // 3 columns equal
+    cells: [
+      { type:'img',  idx:30, span:'span3' },   // full-width header image
+      { type:'img',  idx:31 },
+      { type:'img',  idx:32 },
+      { type:'video',idx:33 },
+      { type:'img',  idx:34 },
+      { type:'text',
+        label:'Series IV — Trace',
+        body:'What the body leaves behind: shadows, breath, the echo of weight on a surface.' },
+      { type:'img',  idx:35 },
+      { type:'img',  idx:36 },
+      { type:'img',  idx:37 },
+      { type:'img',  idx:38 },
+      { type:'video',idx:39 },
+      { type:'img',  idx:40 },
+    ]
+  }
+];
+
+let current = 0;
+
+function xSVG() {
+  return `<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.5" y="0.5" width="23" height="23" stroke="currentColor"/>
+    <line x1="0" y1="0" x2="24" y2="24" stroke="currentColor"/>
+    <line x1="24" y1="0" x2="0" y2="24" stroke="currentColor"/>
+  </svg>`;
+}
+
+function renderPage(idx) {
+  const p = PAGES[idx];
+  const container = document.getElementById('grid-container');
+  container.className = 'grid ' + p.layout;
+  container.innerHTML = '';
+
+  p.cells.forEach(cell => {
+    if (cell.type === 'text') {
+      const d = document.createElement('div');
+      d.className = 'text-cell' + (cell.span === 'tall' ? ' tall' : '');
+      d.innerHTML = `
+        <p class="text-series">${cell.label}</p>
+        <p class="text-body">${cell.body}</p>`;
+      container.appendChild(d);
+      return;
+    }
+
+    const d = document.createElement('div');
+    let cls = 'cell';
+    if (cell.span === 'tall')  cls += ' tall';
+    if (cell.span === 'span2') cls += ' span2';
+    if (cell.span === 'span3') cls += ' span3';
+    if (cell.span === 'span2' || cell.span === 'span3') cls += ' wide';
+    d.className = cls;
+
+    const inner = document.createElement('div');
+    inner.className = 'cell-inner';
+
+    if (cell.src && cell.type === 'img') {
+      inner.innerHTML = `<img src="${cell.src}" alt="Movement ${cell.idx}" loading="lazy">`;
+    } else if (cell.src && cell.type === 'video') {
+      inner.innerHTML = `<video src="${cell.src}" autoplay muted loop playsinline></video>
+        <span class="vid-tag">▶ video</span>`;
+    } else {
+      // placeholder
+      inner.innerHTML = `<div class="placeholder-x">${xSVG()}</div>`;
+      if (cell.type === 'video') {
+        inner.innerHTML += `<span class="vid-tag">▶ video</span>`;
+      }
+    }
+
+    d.appendChild(inner);
+    container.appendChild(d);
+  });
+
+  // update UI
+  const pad = n => String(n).padStart(2, '0');
+  document.getElementById('page-label').textContent = `${pad(idx+1)} / ${pad(PAGES.length)}`;
+  document.getElementById('prev-btn').disabled = idx === 0;
+  document.getElementById('next-btn').disabled = idx === PAGES.length - 1;
+
+  const dotsRow = document.getElementById('dots-row');
+  dotsRow.innerHTML = '';
+  PAGES.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === idx ? ' active' : '');
+    dot.title = `Page ${i+1}`;
+    dot.onclick = () => { current = i; renderPage(i); };
+    dotsRow.appendChild(dot);
+  });
+}
+
+function openCatalog() {
+  document.getElementById('home').classList.remove('active');
+  document.getElementById('catalog').classList.add('active');
+  renderPage(0);
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  document.getElementById('catalog').classList.remove('active');
+  document.getElementById('home').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function changePage(dir) {
+  current = Math.max(0, Math.min(PAGES.length - 1, current + dir));
+  renderPage(current);
+  window.scrollTo(0, 0);
+}
+
+// keyboard navigation
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('catalog').classList.contains('active')) return;
+  if (e.key === 'ArrowRight') changePage(1);
+  if (e.key === 'ArrowLeft')  changePage(-1);
+});
+</script>
+</body>
+</html>
