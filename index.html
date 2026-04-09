@@ -60,26 +60,28 @@
     font-weight: 400;
   }
 
-  .home-title {
-    font-family: var(--serif);
-    font-size: clamp(52px, 9vw, 110px);
-    line-height: 0.95;
-    color: var(--fg);
-    letter-spacing: -0.01em;
-    margin-bottom: 0.15em;
-  }
+.home-title {
+  font-family: 'Inter', 'Syne', sans-serif;
+  font-size: clamp(52px, 9vw, 110px);
+  line-height: 0.95;
+  color: #000; /* noir pur */
+  letter-spacing: -0.02em; /* un peu plus serré = plus moderne */
+  margin-bottom: 0.15em;
+  font-weight: 500;
+}
 
   .home-title em {
-    font-style: italic;
-    color: var(--fg2);
-  }
+  font-style: normal;
+  font-weight: 300;
+  color: #000;
+}
 
   .home-divider {
-    width: 48px;
-    height: 1px;
-    background: var(--border);
-    margin: 2rem 0;
-  }
+  width: 48px;
+  height: 1px;
+  background: #000;
+  margin: 2rem 0;
+}
 
   .home-meta-row {
     display: flex;
@@ -167,9 +169,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.5rem 0 1.25rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid rgba(0,0,0,0.2);
     margin-bottom: 1.5rem;
     gap: 1rem;
+      
   }
 
   .topbar-left {
@@ -178,13 +181,13 @@
     gap: 1.5rem;
   }
 
-  .topbar-title {
-    font-family: var(--serif);
-    font-size: 18px;
-    font-weight: 400;
-    color: var(--fg);
-    letter-spacing: -0.01em;
-  }
+ .topbar-title {
+  font-family: 'Inter', 'Syne', sans-serif;
+  font-size: 18px;
+  font-weight: 500; /* slightly stronger = cleaner */
+  color: #000; /* force pure black */
+  letter-spacing: -0.01em;
+}
 
   .back-btn {
     background: none;
@@ -314,8 +317,8 @@
   }
 
   .text-body {
-    font-family: var(--serif);
-    font-style: italic;
+    font-family: var(--sans);
+    font-style: lowercase;
     font-size: 13px;
     color: var(--fg2);
     line-height: 1.6;
@@ -365,7 +368,7 @@
     <div class="home-divider"></div>
     <div class="home-meta-row">
       <div class="home-meta-item">
-        <span class="home-meta-label">Projet</span>
+        <span class="home-meta-label">Project</span>
         <span class="home-meta-value">Live Project, Danse × Tech</span>
       </div>
       <div class="home-meta-item">
@@ -373,8 +376,12 @@
         <span class="home-meta-value">April 2026</span>
       </div>
       <div class="home-meta-item">
-        <span class="home-meta-label">Médias</span>
-        <span class="home-meta-value">Images &amp; Vidéos</span>
+        <span class="home-meta-label">Medias</span>
+        <span class="home-meta-value">Images &amp; Videos</span>
+      </div>
+      <div class="home-meta-item">
+        <span class="home-meta-label">Name</span>
+        <span class="home-meta-value">Constance Marie Dugauguez</span>
       </div>
     </div>
     <button class="enter-btn" onclick="openCatalog()">
@@ -384,7 +391,7 @@
   <div class="home-footer">
     <p class="home-footer-note">
       50 works across 4 pages<br>
-      Images &amp; video — square format
+      Images &amp; video
     </p>
     <p class="home-count-large">50</p>
   </div>
@@ -422,7 +429,7 @@ const PAGES = [
       { type:'img', idx:5, src:'img/03.30.2026-05.png' },
       { type:'img', idx:6, src:'img/03.30.2026-06.png' },
       { type:'video', idx:7, src:'img/03.31.2026-01.mov' },
-      { type:'video', idx:8, src:'img/04.07.2026-01.mov' },
+      { type:'video', idx:8 },
       { type:'video', idx:9 },
       { type:'img', idx:10 },
       { type:'img', idx:11 },
@@ -433,17 +440,17 @@ const PAGES = [
       { type:'text',
         label:'Series II — Color',
         body:'Modulating color and tone to influence the resulting intention.' },
-      { type:'img', idx:12, src:'img/04.09.2026-01.png' },
-      { type:'img', idx:13, src:'img/04.09.2026-02.png' },
-      { type:'img', idx:14, src:'img/04.09.2026-03.png' },
-      { type:'img', idx:15, src:'img/04.09.2026-04.png'},
-      { type:'img', idx:16, src:'img/04.09.2026-05.png' },
-      { type:'img', idx:17 },
+      { type:'video', idx:12, src:'img/04.07.2026-01.mov' },
+      { type:'img', idx:13, src:'img/04.09.2026-01.png' },
+      { type:'img', idx:14, src:'img/04.09.2026-02.png' },
+      { type:'img', idx:15, src:'img/04.09.2026-03.png' },
+      { type:'img', idx:16, src:'img/04.09.2026-04.png'},
+      { type:'img', idx:17, src:'img/04.09.2026-05.png' },
       { type:'img', idx:18 },
-      { type:'video', idx:19 },
-      { type:'img', idx:20 },
+      { type:'img', idx:19 },
+      { type:'video', idx:20 },
       { type:'img', idx:21 },
-      { type:'img', idx:22 },
+      { type:'img', idx:222 },
     ]
   },
   {
